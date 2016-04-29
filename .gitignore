@@ -1,5 +1,6 @@
 # Custom
 debian-hurd.img
+hd.img
 
 # Object files
 *.o

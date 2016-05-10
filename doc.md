@@ -87,3 +87,7 @@ As described above:
     mount -o remount,rw /dev/hd0s1 /
     dpkg-reconfigure hurd
     reboot-hurd
+
+## Error "ext2fs: disk_cache_init: Block size 1024 != vm_page_size 4096"
+
+Use `mkfs.ext2 -b 4096` to format your image.

@@ -1,7 +1,15 @@
 #!/usr/bin/sh
 
-[[ "$1" != "-g" ]] && arg="-display none"
 
+for pid in $(pidof -x "$0"); do
+    if [ $pid != $$ ]; then
+        echo "$0: already running with PID $pid, attach to it"
+        ssh -p 5555 la@localhost
+        exit 0
+    fi
+done
+
+[[ "$1" != "-g" ]] && arg="-display none"
 qemu-system-i386 -enable-kvm  -m 1G                                 \
     -drive index=0,cache=writeback,file=debian-hurd.img,format=raw  \
     -drive index=1,cache=directsync,file=hd.img,format=raw          \

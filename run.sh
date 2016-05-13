@@ -1,13 +1,11 @@
 #!/usr/bin/sh
 
-
-for pid in $(pidof -x "$0"); do
-    if [ $pid != $$ ]; then
-        echo "$0: already running with PID $pid, attach to it"
-        ssh -p 5555 la@localhost
-        exit 0
-    fi
-done
+pid=$(pidof -x "qemu-system-i386")
+if [ $pid ]; then
+    echo "qemu already running with PID $pid, attach to it"
+    ssh -p 5555 la@localhost
+    exit 0
+fi
 
 [[ "$1" != "-g" ]] && arg="-display none"
 qemu-system-i386 -enable-kvm  -m 1G                                 \

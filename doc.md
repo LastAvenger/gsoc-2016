@@ -43,6 +43,10 @@ Use this command start up hurd and connect to it: (run `./run.sh`)
         -net nic -net user,hostfwd=tcp::5555-:22                \
         -display none & sleep 3 && ssh -p 5555 la@localhost
 
+Build:
+
+    autoreconf -i && ./configure && make
+
 # Solution
 
 ## Error "Login incorrect"

@@ -95,3 +95,7 @@ As described above:
 ## Error "ext2fs: disk_cache_init: Block size 1024 != vm_page_size 4096"
 
 Use `mkfs.ext2 -b 4096` to format your image.
+
+## External library
+
+> 10:50:25< teythoon> i tend to do (from my hurd build dir): settrans -a t /usr/bin/env LD_LIBRARY_PATH=$(pwd)/lib trans/hello

@@ -2,3 +2,5 @@ GSoC 2016
 ---------
 
 Project: Implement xattr Support of Hurd Project
+
+The current hurd's ext2fs server uses a reversed field in inode to store passive translator setting. It is a ad-hoc method and causes that hurd's file system can not work well on other system. Implement xattr support can help hurd store this data in a more general way.

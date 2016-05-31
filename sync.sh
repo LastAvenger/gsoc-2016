@@ -6,8 +6,13 @@
 GUSET_DEST="\."
 HOST_DEST="/home/la/git/gsoc-2016"
 
+remote_cmd() {
+    ssh -p 5555 -t la@localhost $1
+}
+
 if [[ "$1" == "-c" || -z "$1" ]]; then
     rsync -avzP $HOST_DEST/hurd la@localhost:$GUEST_DEST
+    remote_cmd "cd ~/hurd/ext2fs; rm xattr.o; make"
 fi
 
 if [[ "$1" == "-i" ]]; then

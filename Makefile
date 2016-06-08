@@ -14,7 +14,7 @@ IMG = ext2.img
 # compile code
 default:
 	$(MAKE) sync
-	$(REMOTE_CMD) "cd ~/hurd/ext2fs; rm xattr.o; make"
+	$(REMOTE_CMD) "cd ~/hurd/ext2fs; rm xattr.o xattr_test.o; make"
 
 # sync git repo from host -> guest
 sync:
@@ -31,6 +31,7 @@ img2guest:
 	rsync -avzP $(HOST)/$(IMG) $(GUEST):
 
 fsck:
+	$(MAKE) img2host
 	fsck.ext2 $(IMG)
 
 mkfs:
@@ -48,7 +49,7 @@ settrans:
 unsettrans:
 	$(REMOTE_CMD) "settrans -g $(TEST_IMG)"
 
-testimg:
+testimg1:
 	$(MAKE) mkfs
 	mkdir -p tmp
 	sudo mount $(IMG) ./tmp
@@ -57,3 +58,13 @@ testimg:
 	sudo setfattr -n user.key_456 -v val_456 ./tmp/test || true
 	sudo umount ./tmp
 	rm -rf ./tmp
+	$(MAKE) img2guest
+
+testimg2:
+	$(MAKE) mkfs
+	mkdir -p tmp
+	sudo mount $(IMG) ./tmp
+	sudo touch ./tmp/test || true
+	sudo umount ./tmp
+	rm -rf ./tmp
+	$(MAKE) img2guest

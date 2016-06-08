@@ -24,5 +24,5 @@ attach () {
 # chmod is used as a interface of xattr code
 
 xattr () {
-    unload && load && chmod 777
+    load && chmod 777 && unload
 }

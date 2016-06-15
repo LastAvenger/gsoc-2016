@@ -32,7 +32,7 @@ img2guest:
 
 fsck:
 	$(MAKE) img2host
-	fsck.ext2 $(IMG)
+	fsck.ext2 -fy $(IMG)
 
 mkfs:
 	dd if=/dev/zero of=$(IMG) bs=4M count=10

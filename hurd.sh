@@ -23,6 +23,16 @@ attach () {
 # test xattr
 # chmod is used as a interface of xattr code
 
+trans () {
+    load
+    sudo settrans -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly"
+    cat test/test
+    sudo settrans -g $TEST_NODE/test
+    unload
+}
+
 xattr () {
-    load && chmod 777 && unload
+    load
+    chmod 777 test/test
+    unload
 }

@@ -14,7 +14,7 @@ IMG = ext2.img
 # compile code
 default:
 	$(MAKE) sync
-	$(REMOTE_CMD) "cd ~/hurd/ext2fs; rm xattr.o xattr_test.o; make"
+	$(REMOTE_CMD) "cd ~/hurd/ext2fs; rm xattr.o xattr_test.o inode.o; make"
 
 # sync git repo from host -> guest
 sync:
@@ -32,7 +32,15 @@ img2guest:
 
 fsck:
 	$(MAKE) img2host
-	fsck.ext2 -fy $(IMG)
+	LANG= fsck.ext2 -fy $(IMG)
+
+xattr:
+	$(MAKE) img2host
+	sudo mount $(IMG) /mnt
+	getfattr /mnt/test || true
+	getfattr -n user.key_123 /mnt/test || true
+	getfattr -n user.key_456 /mnt/test || true
+	sudo umount /mnt
 
 mkfs:
 	dd if=/dev/zero of=$(IMG) bs=4M count=10

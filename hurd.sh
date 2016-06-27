@@ -8,8 +8,13 @@ TEST_NODE=~/test
 TEST_IMG=~/ext2.img
 
 load() {
-    mv $EXT2FS_PATH/ext2fs.static $EXT2FS_PATH/_ext2fs
-    settrans -a $TEST_NODE $EXT2FS_PATH/_ext2fs $TEST_IMG
+    cp $EXT2FS_PATH/ext2fs $EXT2FS_PATH/_ext2fs -v
+    mkdir ~/hurd/libdiskfs/lib || true
+    cp ~/hurd/libdiskfs/{,lib/}libdiskfs.so.0.3 -v
+
+    settrans -a $TEST_NODE /usr/bin/env \
+        LD_LIBRARY_PATH=$PWD/hurd/libdiskfs/lib  \
+        $EXT2FS_PATH/_ext2fs $TEST_IMG
 }
 
 unload() {
@@ -25,9 +30,9 @@ attach () {
 
 trans () {
     load
-    sudo settrans -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly"
+    settrans -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly\n"
     cat test/test
-    sudo settrans -g $TEST_NODE/test
+    settrans -g $TEST_NODE/test
     unload
 }
 

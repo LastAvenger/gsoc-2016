@@ -30,9 +30,13 @@ attach () {
 
 trans () {
     load
-    settrans -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly\n"
+    echo 'settrans -a: '
+    sudo settrans -p -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly"
+    echo 'cat: '
     cat test/test
-    settrans -g $TEST_NODE/test
+    echo
+    echo 'settrans -g: '
+    sudo settrans -p -g $TEST_NODE/test
     unload
 }
 

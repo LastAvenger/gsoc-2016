@@ -1,0 +1,6 @@
+[submodule "glibc"]
+	path = glibc
+	url = ./glibc
+[submodule "hurd"]
+	path = hurd
+	url = ./hurd

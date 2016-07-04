@@ -32,9 +32,8 @@ trans () {
     load
     echo 'settrans -a: '
     sudo settrans -p -a $TEST_NODE/test /hurd/hello -c "Gentleness is deadly"
-    echo 'cat: '
-    cat test/test
-    echo
+    echo 'showtrans: '
+    showtrans $TEST_NODE/test
     echo 'settrans -g: '
     sudo settrans -p -g $TEST_NODE/test
     unload
@@ -44,4 +43,13 @@ xattr () {
     load
     chmod 777 test/test
     unload
+}
+
+hurdimg  (){
+    dd if=/dev/zero of=$TEST_IMG bs=4M count=10
+    sudo mkfs.ext2 -b 4096 $TEST_IMG
+    settrans -a $TEST_NODE /hurd/ext2fs $TEST_IMG
+    sudo touch $TEST_NODE/test
+    sudo settrans -p $TEST_NODE /hurd/hello -c "Gentleness is deadly"
+    settrans -g $TEST_NODE
 }

@@ -45,11 +45,18 @@ xattr () {
     unload
 }
 
+
 hurdimg  (){
     dd if=/dev/zero of=$TEST_IMG bs=4M count=10
     sudo mkfs.ext2 -b 4096 $TEST_IMG
+
     settrans -a $TEST_NODE /hurd/ext2fs $TEST_IMG
-    sudo touch $TEST_NODE/test
-    sudo settrans -p $TEST_NODE /hurd/hello -c "Gentleness is deadly"
+
+    sudo mkdir $TEST_NODE/tmp
+    sudo chmod 1777 $TEST_NODE/tmp
+    sudo chown la:users $TEST_NODE/tmp
+    touch $TEST_NODE/tmp/test
+    settrans -p $TEST_NODE/tmp/test /hurd/hello -c "Gentleness is deadly"
+
     settrans -g $TEST_NODE
 }

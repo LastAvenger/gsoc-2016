@@ -19,6 +19,7 @@ default:
 # sync git repo from host -> guest
 sync:
 	rsync -avzP $(HOST)/hurd $(GUEST):
+	rsync -avzP $(HOST)/glibc $(GUEST):
 
 start:
 	./run.sh

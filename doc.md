@@ -15,6 +15,17 @@ Ref: http://www.gnu.org/software/hurd/contributing.html#index4h2
     qemu-system-i386 -enable-kvm -m 1G  \
     -drive cache=writeback,file=debian-hurd.img,format=raw
 
+## Build hurd
+
+    autoreconf -i && ./configure && make
+
+## Build glibc
+
+    mkdir build
+    ../glibc/configure --prefix=/usr
+    make
+
+
 ## Attach to Hurd via SSH
 
 `openssh-server` is pre-installed in the aboved image.
@@ -42,10 +53,6 @@ Use this command start up hurd and connect to it: (run `./run.sh`)
         -drive cache=writeback,file=debian-hurd.img,format=raw  \
         -net nic -net user,hostfwd=tcp::5555-:22                \
         -display none & sleep 3 && ssh -p 5555 la@localhost
-
-Build:
-
-    autoreconf -i && ./configure && make
 
 # Solution
 

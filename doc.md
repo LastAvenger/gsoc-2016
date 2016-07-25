@@ -22,7 +22,7 @@ Ref: http://www.gnu.org/software/hurd/contributing.html#index4h2
 ## Build glibc
 
     mkdir build
-    ../glibc/configure --prefix=/usr
+    ../glibc/configure --prefix=$HOME/glibc-bin --enable-add-ons=libpthread --enable-pt_chown --disable-nscd CFLAGS=-O2 --build=i586-gnu --disable-multi-arch
     make
 
 

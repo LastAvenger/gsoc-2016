@@ -1,7 +1,7 @@
-From 8cfeb54c1a39fe98b6bd61d8a0add99065ea26f3 Mon Sep 17 00:00:00 2001
+From b389045ce6e439358372e923464a5124403ce60d Mon Sep 17 00:00:00 2001
 From: Shengyu Zhang <lastavengers@outlook.com>
 Date: Wed, 6 Jul 2016 14:21:23 +0800
-Subject: [PATCH] Using xattr to store translator record
+Subject: [PATCH 2/6] Using xattr to store translator record
 
 ---
  ext2fs/inode.c | 156 +++++++++++++++++++++++++++++----------------------------
@@ -219,5 +219,5 @@ index ccc8d69..be163d5 100644
  
    *namelen = datalen;
 -- 
-2.9.0
+2.9.2
 

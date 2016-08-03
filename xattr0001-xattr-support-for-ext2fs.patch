@@ -1,7 +1,7 @@
-From 4f092830fe6a1fbb91825240c94fe0a10141de33 Mon Sep 17 00:00:00 2001
+From a98736f7163a0731fe8b085bf956e6e310432c44 Mon Sep 17 00:00:00 2001
 From: Shengyu Zhang <lastavengers@outlook.com>
 Date: Fri, 13 May 2016 09:18:59 +0800
-Subject: [PATCH] xattr support for ext2fs
+Subject: [PATCH 1/6] xattr support for ext2fs
 
 ---
  ext2fs/Makefile  |   3 +-
@@ -1054,5 +1054,5 @@ index 0000000..245f896
 +
 +#endif
 -- 
-2.9.0
+2.9.2
 

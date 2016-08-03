@@ -1,0 +1,28 @@
+From 3b6a8690093474b98e035d579da7767f88246302 Mon Sep 17 00:00:00 2001
+From: Justus Winter <justus@gnupg.org>
+Date: Tue, 26 Jul 2016 15:26:49 +0200
+Subject: [PATCH hurd 5/6] Idea: implement xattr support on linux fs (only!?)
+
+---
+ ext2fs/inode.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ext2fs/inode.c b/ext2fs/inode.c
+index f1c3356..f2e2f77 100644
+--- a/ext2fs/inode.c
++++ b/ext2fs/inode.c
+@@ -187,7 +187,11 @@ diskfs_user_read_node (struct node *np, struct lookup_context *ctx)
+     }
+   else
+     {
++      size_t datalen;
+       st->st_mode = di->i_mode & ~S_ITRANS;
++      err = ext2_get_xattr (np, "gnu.translator", NULL, &datalen);
++      if (! err && datalen > 0)
++        st->st_mode |= S_IPTRANS;
+       st->st_uid = di->i_uid;
+       st->st_gid = di->i_gid;
+       st->st_author = st->st_uid;
+-- 
+2.8.1
+

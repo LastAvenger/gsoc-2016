@@ -1,0 +1,28 @@
+From 9dca47ea808cdb30922d436cd029f2a826fac6e8 Mon Sep 17 00:00:00 2001
+From: Justus Winter <justus@gnupg.org>
+Date: Tue, 26 Jul 2016 15:27:03 +0200
+Subject: [PATCH hurd 6/6] Fix removing the translator
+
+---
+ ext2fs/inode.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ext2fs/inode.c b/ext2fs/inode.c
+index f2e2f77..78cba3a 100644
+--- a/ext2fs/inode.c
++++ b/ext2fs/inode.c
+@@ -599,7 +599,11 @@ diskfs_set_translator (struct node *np, const char *name, unsigned namelen,
+     }
+   else
+     {
++      /* Removing the translator.  */
+       err = ext2_set_xattr (np, "gnu.translator", NULL, 0, 0);
++      if (err == ENODATA)
++        /* Happens if the key did not exist in the first place.  */
++        err = 0;
+ 
+       np->dn_stat.st_mode &= ~S_IPTRANS;
+       np->dn_set_ctime = 1;
+-- 
+2.8.1
+

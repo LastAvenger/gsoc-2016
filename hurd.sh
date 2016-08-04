@@ -41,7 +41,7 @@ trans () {
 
 xattr () {
     load
-    chmod 777 test/test
+    chmod 777 test/tmp/test
     unload
 }
 

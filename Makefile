@@ -62,9 +62,13 @@ testimg1:
 	$(MAKE) mkfs
 	mkdir -p tmp
 	sudo mount $(IMG) ./tmp
-	sudo touch ./tmp/test || true
-	sudo setfattr -n user.key_123 -v val_123 ./tmp/test || true
-	sudo setfattr -n user.key_456 -v val_456 ./tmp/test || true
+	sudo mkdir ./tmp/tmp || true
+	sudo chmod 1777 ./tmp/tmp || true
+	touch ./tmp/tmp/test || true
+	chmod 777 ./tmp/tmp/test || true
+	chown la:users ./tmp/tmp/test || true
+	sudo setfattr -n user.key_123 -v val_123 ./tmp/tmp/test || true
+	sudo setfattr -n user.key_456 -v val_456 ./tmp/tmp/test || true
 	sudo umount ./tmp
 	rm -rf ./tmp
 	$(MAKE) img2guest
@@ -73,7 +77,11 @@ testimg2:
 	$(MAKE) mkfs
 	mkdir -p tmp
 	sudo mount $(IMG) ./tmp
-	sudo touch ./tmp/test || true
+	sudo mkdir ./tmp/tmp || true
+	sudo chmod 1777 ./tmp/tmp || true
+	touch ./tmp/tmp/test || true
+	chmod 777 ./tmp/tmp/test || true
+	chown la:users ./tmp/tmp/test || true
 	sudo umount ./tmp
 	rm -rf ./tmp
 	$(MAKE) img2guest

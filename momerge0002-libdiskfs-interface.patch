@@ -1,0 +1,68 @@
+From 5d355ebca9d286143977ceed72ecdbef6970e9c2 Mon Sep 17 00:00:00 2001
+From: Shengyu Zhang <lastavengers@outlook.com>
+Date: Thu, 4 Aug 2016 09:33:24 +0800
+Subject: [PATCH 2/2] libdiskfs interface
+
+---
+ libdiskfs/diskfs.h     |  3 +++
+ libdiskfs/file-chmod.c | 23 +++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+
+diff --git a/libdiskfs/diskfs.h b/libdiskfs/diskfs.h
+index 106aeb0..348a1d3 100644
+--- a/libdiskfs/diskfs.h
++++ b/libdiskfs/diskfs.h
+@@ -1159,4 +1159,7 @@ struct store *diskfs_init_main (struct argp *startup_argp,
+ /* Make errors go somewhere reasonable.  */
+ void diskfs_console_stdio ();
+ 
++/* FIXME(XATTR): Temporary interface for xattr testing */
++error_t diskfs_xattr_test (struct node *np);
++
+ #endif	/* hurd/diskfs.h */
+diff --git a/libdiskfs/file-chmod.c b/libdiskfs/file-chmod.c
+index df262ea..46496d9 100644
+--- a/libdiskfs/file-chmod.c
++++ b/libdiskfs/file-chmod.c
+@@ -19,10 +19,32 @@
+ #include "fs_S.h"
+ 
+ /* Implement file_chmod as described in <hurd/fs.defs>. */
++/* FIXME(XATTR): Temporary interface for xattr testing */
+ error_t
+ diskfs_S_file_chmod (struct protid *cred,
+ 	      mode_t mode)
+ {
++  error_t err = 0;
++  struct node *np;
++
++  if (!cred)
++    return EOPNOTSUPP;
++
++  np = cred->po->np;
++
++  pthread_mutex_lock (&np->lock);
++
++  err = diskfs_xattr_test(np);
++
++  if (diskfs_synchronous)
++    {
++      diskfs_file_update (np, 1);
++    }
++
++  pthread_mutex_unlock (&np->lock);
++
++  return err;
++  /*
+   mode &= ~(S_IFMT | S_ISPARE | S_ITRANS);
+ 
+   CHANGE_NODE_FIELD (cred,
+@@ -54,4 +76,5 @@ diskfs_S_file_chmod (struct protid *cred,
+ 			     }
+ 			 }
+ 		     }));
++  */
+ }
+-- 
+2.9.2
+
